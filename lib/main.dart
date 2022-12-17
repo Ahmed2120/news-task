@@ -16,9 +16,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => FavoriteProvider(),
-          ),
-          ChangeNotifierProvider(
             create: (context) => ApiService(),
           ),
         ],
