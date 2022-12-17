@@ -1,7 +1,9 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:galaxy_task/utility/configration.dart';
 
 import '../model/news.dart';
+import '../services/api_service.dart';
 import 'arabic_container.dart';
 
 class EgyptNews extends StatefulWidget {
@@ -15,15 +17,30 @@ class EgyptNews extends StatefulWidget {
 
 class _EgyptNewsState extends State<EgyptNews> {
 
+  final apiService = ApiService();
+  List<News> news = [];
+  bool _isLodaing = false;
 
+  getEgNews() async{
+    setState(() =>_isLodaing = true);
+    news = await apiService.getEgNews();
+    setState(() =>_isLodaing = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getEgNews();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Swiper(
       itemBuilder: (BuildContext context,int index){
-        return ArabicContainer(news: News(name: 'name', author: 'author', title: 'title', description: 'description', imageUrl: 'imageUrl', publishedAt: DateTime.now()));
+        return ArabicContainer(news: news[index]);
       },
-      itemCount: 3,
+      itemCount: news.length,
       pagination: SwiperPagination(
           margin: EdgeInsets.zero,
           builder: SwiperCustomPagination(builder: (context, config) {
