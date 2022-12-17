@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../model/news.dart';
 import '../services/api_service.dart';
+import '../utility/CustomWidgetBuilder.dart';
 import 'arabic_container.dart';
 
 class EgyptNews extends StatefulWidget {
@@ -24,7 +25,11 @@ class _EgyptNewsState extends State<EgyptNews> {
 
   getEgNews() async{
     setState(() =>_isLoading = true);
-    news = await Provider.of<ApiService>(context, listen: false).getEgNews();
+    try {
+      news = await Provider.of<ApiService>(context, listen: false).getEgNews();
+    }catch(e){
+      CustomWidgetBuilder.showMessageDialog(context, e.toString(), true);
+    }
     setState(() =>_isLoading = false);
   }
 
