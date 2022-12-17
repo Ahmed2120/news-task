@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galaxy_task/cnsts.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/latest_news_container.dart';
 
@@ -15,7 +16,9 @@ class FavoritePage extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      body: ListView.builder(itemBuilder: (context, index)=> LatestNewsContainer(news: favoriteNews[index],), itemCount: favoriteNews.length,)
+      body: ListView.builder(itemBuilder: (context, index)=> ChangeNotifierProvider.value(
+        value: favoriteNews[index],
+          child: const LatestNewsContainer()), itemCount: favoriteNews.length,)
     ,
     );
   }

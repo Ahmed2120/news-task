@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:galaxy_task/services/api_service.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/btm_bar_page.dart';
-import 'provider/favorite_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (context) => FavoriteProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ApiService(),
           ),
         ],
         child: MaterialApp(

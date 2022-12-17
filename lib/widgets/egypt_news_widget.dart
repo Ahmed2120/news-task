@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:galaxy_task/utility/configration.dart';
+import 'package:provider/provider.dart';
 
 import '../model/news.dart';
 import '../services/api_service.dart';
@@ -19,12 +20,12 @@ class _EgyptNewsState extends State<EgyptNews> {
 
   final apiService = ApiService();
   List<News> news = [];
-  bool _isLodaing = false;
+  bool _isLoading = false;
 
   getEgNews() async{
-    setState(() =>_isLodaing = true);
-    news = await apiService.getEgNews();
-    setState(() =>_isLodaing = false);
+    setState(() =>_isLoading = true);
+    news = await Provider.of<ApiService>(context, listen: false).getEgNews();
+    setState(() =>_isLoading = false);
   }
 
   @override
@@ -38,7 +39,9 @@ class _EgyptNewsState extends State<EgyptNews> {
   Widget build(BuildContext context) {
     return Swiper(
       itemBuilder: (BuildContext context,int index){
-        return ArabicContainer(news: news[index]);
+        return ChangeNotifierProvider.value(
+          value: news[index],
+            child: ArabicContainer());
       },
       itemCount: news.length,
       pagination: SwiperPagination(

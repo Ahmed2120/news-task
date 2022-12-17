@@ -1,4 +1,8 @@
-class News{
+import 'package:flutter/cupertino.dart';
+
+import '../cnsts.dart';
+
+class News with ChangeNotifier{
   final String? id;
   final String? name;
   final String? author;
@@ -27,4 +31,17 @@ class News{
         description = res["description"],
         imageUrl = res["urlToImage"],
         publishedAt = DateTime.parse(res["publishedAt"]);
+
+  void changeFavorite() {
+
+    if(isFavorite){
+      isFavorite = false;
+      favoriteNews.remove(this);
+    }
+    else{
+      isFavorite = true;
+      favoriteNews.add(this);
+    }
+    notifyListeners();
+  }
 }

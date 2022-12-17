@@ -3,16 +3,15 @@ import 'package:galaxy_task/pages/news_details_page.dart';
 import 'package:provider/provider.dart';
 
 import '../model/news.dart';
-import '../provider/favorite_provider.dart';
 import '../utility/configration.dart';
 
 class ArabicContainer extends StatelessWidget {
-  const ArabicContainer({Key? key, required this.news}) : super(key: key);
-
-  final News news;
+  const ArabicContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final news = Provider.of<News>(context, listen: false);
+
     Duration duration = DateTime.now().difference(news.publishedAt!);
     String durationAgo = duration.inHours == 0
         ? '${duration.inMinutes} minutes ago'
@@ -44,14 +43,14 @@ class ArabicContainer extends StatelessWidget {
                     durationAgo,
                     style: const TextStyle(color: Colors.white),
                   ),
-                  IconButton(
+                  Consumer<News>(
+                      builder: (ctx, news, _) => IconButton(
                       onPressed: () =>
-                          Provider.of<FavoriteProvider>(context, listen: false)
-                              .changeFavorite(news),
+                          news.changeFavorite(),
                       icon: Icon(
                         Icons.bookmark,
                         color: news.isFavorite ? Colors.deepOrange : Colors.white,
-                      )),
+                      ))),
                 ],
               ),
               Text(

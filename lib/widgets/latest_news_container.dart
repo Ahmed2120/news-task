@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../model/news.dart';
 import '../pages/news_details_page.dart';
 import '../utility/configration.dart';
 
 class LatestNewsContainer extends StatelessWidget {
-  const LatestNewsContainer({Key? key, required this.news}) : super(key: key);
-
-  final News news;
+  const LatestNewsContainer({Key? key}) : super(key: key);
 
   final double mainHeight = 180;
   final double secondaryHeight = 160;
 
   @override
   Widget build(BuildContext context) {
+    final news = Provider.of<News>(context, listen: false);
+
     Duration duration = DateTime.now().difference(news.publishedAt!);
     String durationAgo = duration.inHours == 0
         ? '${duration.inMinutes} minutes ago'
@@ -71,7 +72,14 @@ class LatestNewsContainer extends StatelessWidget {
                             children: [
                               Text(
                                   durationAgo),
-                              const Icon(Icons.bookmark),
+                              Consumer<News>(
+                                  builder: (ctx, news, _) => IconButton(
+                                      onPressed: () =>
+                                          news.changeFavorite(),
+                                      icon: Icon(
+                                        Icons.bookmark,
+                                        color: news.isFavorite ? Colors.deepOrange : Colors.black,
+                                      ))),
                             ],
                           ),
                         ],

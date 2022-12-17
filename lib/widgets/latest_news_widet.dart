@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../model/news.dart';
 import '../services/api_service.dart';
@@ -32,6 +33,8 @@ class _LatestNewsState extends State<LatestNews> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (context, index)=> LatestNewsContainer(news: news[index],), itemCount: news.length,);
+    return ListView.builder(itemBuilder: (context, index)=> ChangeNotifierProvider.value(
+      value: news[index],
+        child: LatestNewsContainer()), itemCount: news.length,);
   }
 }

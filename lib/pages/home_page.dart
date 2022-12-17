@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News'),
+        title: const Text('News'),
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -25,8 +25,8 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Latest news', style: TextStyle(fontSize: 20),),
+              children: const [
+                Text('Latest news', style: TextStyle(fontSize: 20),),
                 Expanded(child: LatestNews())
               ],
             ),

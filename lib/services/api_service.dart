@@ -1,10 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:galaxy_task/model/news.dart';
 import 'package:http/http.dart' as http;
 import '../utility/configration.dart';
 
-class ApiService{
+class ApiService with ChangeNotifier{
+
+  List<News> egNewsList = [];
+  List<News> newsList = [];
+  List<News> favoriteNewsList = [];
 
   Future<List<News>> getEgNews() async {
     final response =
@@ -12,7 +17,11 @@ class ApiService{
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final parsed = jsonResponse["articles"].cast<Map<String, dynamic>>();
-      return parsed.map<News>((json) => News.fromMap(json)).toList();
+      egNewsList = parsed.map<News>((json) => News.fromMap(json)).toList();
+      print(egNewsList);
+
+      notifyListeners();
+      return egNewsList;
     } else {
       throw Exception('Failed to load EgNews');
     }
@@ -24,7 +33,10 @@ class ApiService{
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final parsed = jsonResponse["articles"].cast<Map<String, dynamic>>();
-      return parsed.map<News>((json) => News.fromMap(json)).toList();
+      newsList = parsed.map<News>((json) => News.fromMap(json)).toList();
+
+      notifyListeners();
+      return newsList;
     } else {
       throw Exception('Failed to load LatestNews');
     }
