@@ -12,13 +12,10 @@ class ArabicContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final news = Provider.of<News>(context, listen: false);
 
-    Duration duration = DateTime.now().difference(news.publishedAt!);
-    String durationAgo = duration.inHours == 0
-        ? '${duration.inMinutes} minutes ago'
-        : '${duration.inHours} Hours ago';
-
     return InkWell(
-      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsDetailsPage(news: news))),
+      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ChangeNotifierProvider.value(
+          value: news,
+          child: const NewsDetailsPage()))),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
@@ -40,7 +37,7 @@ class ArabicContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    durationAgo,
+                    news.getDuration,
                     style: const TextStyle(color: Colors.white),
                   ),
                   Consumer<News>(

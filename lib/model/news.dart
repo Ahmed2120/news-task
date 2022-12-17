@@ -44,4 +44,12 @@ class News with ChangeNotifier{
     }
     notifyListeners();
   }
+
+  String get getDuration{
+    Duration duration = DateTime.now().difference(publishedAt!);
+    String durationAgo = duration.inHours == 0
+        ? '${duration.inMinutes} minutes ago'
+        : '${duration.inHours} Hours ago';
+    return durationAgo;
+  }
 }

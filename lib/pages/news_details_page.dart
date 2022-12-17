@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../model/news.dart';
 import '../utility/configration.dart';
 
 class NewsDetailsPage extends StatelessWidget {
-  const NewsDetailsPage({Key? key, required this.news}) : super(key: key);
+  const NewsDetailsPage({Key? key, }) : super(key: key);
 
-  final News news;
 
   @override
   Widget build(BuildContext context) {
+    final news = Provider.of<News>(context, listen: false);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -18,7 +20,14 @@ class NewsDetailsPage extends StatelessWidget {
         foregroundColor: Colors.white,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark)),
+          Consumer<News>(
+              builder: (ctx, news, _) => IconButton(
+                  onPressed: () =>
+                      news.changeFavorite(),
+                  icon: Icon(
+                    Icons.bookmark,
+                    color: news.isFavorite ? Colors.deepOrange : Colors.white,
+                  ))),
         ],
       ),
       body: Column(
@@ -37,6 +46,7 @@ class NewsDetailsPage extends StatelessWidget {
                               : news.imageUrl!),
                           fit: BoxFit.cover)),
                   child: Container(
+                    width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -45,6 +55,9 @@ class NewsDetailsPage extends StatelessWidget {
                       ),
                       color: Colors.black26,
                     ),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                        child: Text(news.getDuration, style: TextStyle(color: Colors.white),)),
                   ))),
           Padding(
             padding: const EdgeInsets.all(20.0),

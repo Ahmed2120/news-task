@@ -15,13 +15,10 @@ class LatestNewsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final news = Provider.of<News>(context, listen: false);
 
-    Duration duration = DateTime.now().difference(news.publishedAt!);
-    String durationAgo = duration.inHours == 0
-        ? '${duration.inMinutes} minutes ago'
-        : '${duration.inHours} Hours ago';
-
     return InkWell(
-      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsDetailsPage(news: news))),
+      onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> ChangeNotifierProvider.value(
+        value: news,
+          child: NewsDetailsPage()))),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Container(
@@ -71,7 +68,7 @@ class LatestNewsContainer extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                  durationAgo),
+                                  news.getDuration),
                               Consumer<News>(
                                   builder: (ctx, news, _) => IconButton(
                                       onPressed: () =>
