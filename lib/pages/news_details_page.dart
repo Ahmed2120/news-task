@@ -34,40 +34,10 @@ class NewsDetailsPage extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                      image: DecorationImage(
-                          image: NetworkImage(news.imageUrl == null
-                              ? MyConfig.DEFAULT_IMAGE
-                              : news.imageUrl!),
-                          fit: BoxFit.cover)),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                      color: Colors.black26,
-                    ),
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                        child: Text(news.getDuration, style: TextStyle(color: Colors.white),)),
-                  ))),
+              child: pageHeader(news)),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                border: Border(left: BorderSide(color: Colors.deepOrange, width: 3))
-              ),
-                child: Text(news.title!, style: const TextStyle(fontSize: 20),)),
+            child: newsTitle(news),
           ),
           Expanded(flex: 4, child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -76,5 +46,43 @@ class NewsDetailsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Container newsTitle(News news) {
+    return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(left: BorderSide(color: Colors.deepOrange, width: 3))
+            ),
+              child: Text(news.title!, style: const TextStyle(fontSize: 20),));
+  }
+
+  Container pageHeader(News news) {
+    return Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    image: DecorationImage(
+                        image: NetworkImage(news.imageUrl == null
+                            ? MyConfig.DEFAULT_IMAGE
+                            : news.imageUrl!),
+                        fit: BoxFit.cover)),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    color: Colors.black26,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                      child: Text(news.getDuration, style: TextStyle(color: Colors.white),)),
+                ));
   }
 }
